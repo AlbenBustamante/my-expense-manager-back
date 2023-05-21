@@ -64,6 +64,14 @@ public class User {
 
     @PrePersist
     public void prePersist() {
+        if (gender == null) {
+            gender = Gender.ANOTHER;
+        }
+
+        if (role == null) {
+            role = Role.USER;
+        }
+
         isEnabled = true;
         createdAt = updatedAt = LocalDateTime.now();
     }
