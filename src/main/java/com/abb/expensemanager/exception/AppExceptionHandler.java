@@ -4,9 +4,11 @@ import com.abb.expensemanager.util.constants.DateFormats;
 import org.springframework.http.*;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.nio.file.AccessDeniedException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
@@ -15,6 +17,7 @@ import java.util.Map;
 /**
  * The main application exception handler for customizing responses.
  */
+@RestControllerAdvice
 public class AppExceptionHandler extends ResponseEntityExceptionHandler {
     private static final String TIMESTAMP = "timestamp";
 
@@ -29,6 +32,20 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
                 .forEach(field -> body.put(field.getField(), field.getDefaultMessage()));
 
         return ResponseEntity.badRequest().body(body);
+    }
+
+    /**
+     * Customize the handling of {@link AccessDeniedException}.
+     *
+     * @param ex the exception to handle.
+     * @return a {@link ProblemDetail} for the response to use.
+     */
+    @ExceptionHandler(AccessDeniedException.class)
+    public ProblemDetail handleAccessDenied(AccessDeniedException ex) {
+        final var problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, ex.getMessage());
+        problemDetail.setProperty(TIMESTAMP, timestamp());
+
+        return problemDetail;
     }
 
     /**
