@@ -1,4 +1,4 @@
-package com.abb.expensemanager;
+package com.abb.expensemanager.repository;
 
 import com.abb.expensemanager.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;

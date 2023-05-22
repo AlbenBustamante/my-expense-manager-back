@@ -1,10 +1,10 @@
 package com.abb.expensemanager.service;
 
-import com.abb.expensemanager.IUserRepository;
 import com.abb.expensemanager.exception.AppException;
 import com.abb.expensemanager.mapper.UserMapper;
 import com.abb.expensemanager.model.dto.UserRegister;
 import com.abb.expensemanager.model.dto.UserResponse;
+import com.abb.expensemanager.repository.IUserRepository;
 import com.abb.expensemanager.service.usecase.IUserUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
