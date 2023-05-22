@@ -16,12 +16,12 @@ public class UserApi {
 
     private final IUserUseCase service;
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<UserResponse> get(@PathVariable("id") int id) {
         return ResponseEntity.of(service.get(id));
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<UserResponse> delete(@PathVariable("id") int id) {
         return service.delete(id) ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }

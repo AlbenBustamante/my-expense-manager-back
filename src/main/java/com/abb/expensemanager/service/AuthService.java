@@ -29,7 +29,7 @@ public class AuthService implements IAuthUseCase {
         final var user = userRepository.findByUsernameOrEmailOrPhone(req.usernameOrEmailOrPhone(), req.usernameOrEmailOrPhone(), req.usernameOrEmailOrPhone());
 
         if (user.isEmpty() || !passwordEncoder.matches(req.password(), user.get().getPassword())) {
-            throw new AppException("The user doesn't exists...", HttpStatus.BAD_REQUEST);
+            throw new AppException("Something went wrong... try again!", HttpStatus.BAD_REQUEST);
         }
 
         return new AuthRes(user.get().getId(), jwtProvider.createToken(userMapper.toResponse(user.get())));
