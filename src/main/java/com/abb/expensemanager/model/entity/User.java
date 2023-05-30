@@ -8,7 +8,9 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * The user's model entity.
@@ -62,6 +64,9 @@ public class User {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
+    @OneToMany(mappedBy = "user")
+    private Set<UsersCategory> categories;
+
     @PrePersist
     public void prePersist() {
         if (gender == null) {
@@ -70,6 +75,10 @@ public class User {
 
         if (role == null) {
             role = Role.USER;
+        }
+
+        if (categories == null) {
+            categories = new HashSet<>();
         }
 
         isEnabled = true;
