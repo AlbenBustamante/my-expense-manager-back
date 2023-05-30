@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * The users category mapper.
  */
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = CategoryMapper.class)
 public interface UsersCategoryMapper {
 
     @Mapping(target = "userId", source = "user.id")
