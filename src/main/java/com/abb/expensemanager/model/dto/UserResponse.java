@@ -11,6 +11,6 @@ import java.util.Set;
  * The user dto model as response.
  */
 public record UserResponse(int id, String name, String lastName, String username, String email, String phone,
-                           Gender gender, LocalDate birthday, Role role, Set<CategoryResponse> categories,
+                           Gender gender, LocalDate birthday, Role role, Set<UsersCategoryResponse> categories,
                            boolean isEnabled, LocalDateTime createdAt, LocalDateTime updatedAt) {
 }

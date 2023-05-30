@@ -10,7 +10,7 @@ import org.mapstruct.Mapping;
 /**
  * The user's mapper.
  */
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = UsersCategoryMapper.class)
 public interface UserMapper {
 
     UserResponse toResponse(User entity);
@@ -21,6 +21,7 @@ public interface UserMapper {
     @Mapping(target = "isEnabled", ignore = true)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "categories", ignore = true)
     User toEntity(UserRegister register);
 
 }
