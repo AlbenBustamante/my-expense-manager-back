@@ -2,6 +2,8 @@ package com.abb.expensemanager.controller;
 
 import com.abb.expensemanager.model.dto.CategoryRegister;
 import com.abb.expensemanager.model.dto.CategoryResponse;
+import com.abb.expensemanager.model.dto.UsersCategoryRequest;
+import com.abb.expensemanager.model.dto.UsersCategoryResponse;
 import com.abb.expensemanager.service.usecase.ICategoryUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,6 +28,11 @@ public class CategoryApi {
     @GetMapping(path = "/{name}")
     public ResponseEntity<CategoryResponse> getByName(@PathVariable("name") String name) {
         return ResponseEntity.of(service.getByName(name));
+    }
+
+    @PostMapping(path = "/add-category")
+    public ResponseEntity<UsersCategoryResponse> addCategory(@RequestBody UsersCategoryRequest request) {
+        return ResponseEntity.ok(service.addCategory(request));
     }
 
 }

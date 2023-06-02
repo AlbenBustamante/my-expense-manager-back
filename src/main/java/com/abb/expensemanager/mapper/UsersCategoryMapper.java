@@ -19,12 +19,14 @@ public interface UsersCategoryMapper {
 
     List<UsersCategoryResponse> toResponses(List<UsersCategory> entities);
 
-    @Mapping(target = "user.id", source = "userId")
-    @Mapping(target = "category.id", source = "categoryId")
+    @Mapping(target = "id.userId", source = "userId")
+    @Mapping(target = "id.categoryId", ignore = true)
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "user", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "isEnabled", ignore = true)
-    @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "category", ignore = true)
     UsersCategory toEntity(UsersCategoryRequest request);
 
 }

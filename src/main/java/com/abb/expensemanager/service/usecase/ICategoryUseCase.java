@@ -2,6 +2,8 @@ package com.abb.expensemanager.service.usecase;
 
 import com.abb.expensemanager.model.dto.CategoryRegister;
 import com.abb.expensemanager.model.dto.CategoryResponse;
+import com.abb.expensemanager.model.dto.UsersCategoryRequest;
+import com.abb.expensemanager.model.dto.UsersCategoryResponse;
 
 import java.util.Optional;
 
@@ -25,5 +27,13 @@ public interface ICategoryUseCase {
      * @return an optional of the response.
      */
     Optional<CategoryResponse> getByName(String name);
+
+    /**
+     * Add a category to the user's collection.
+     *
+     * @param request the request dto.
+     * @return the response.
+     */
+    UsersCategoryResponse addCategory(UsersCategoryRequest request);
 
 }
