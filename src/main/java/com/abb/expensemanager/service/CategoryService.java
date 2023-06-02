@@ -7,6 +7,7 @@ import com.abb.expensemanager.model.dto.CategoryRegister;
 import com.abb.expensemanager.model.dto.CategoryResponse;
 import com.abb.expensemanager.model.dto.UsersCategoryRequest;
 import com.abb.expensemanager.model.dto.UsersCategoryResponse;
+import com.abb.expensemanager.model.entity.Category;
 import com.abb.expensemanager.repository.ICategoryRepository;
 import com.abb.expensemanager.repository.IUserRepository;
 import com.abb.expensemanager.repository.IUsersCategoryRepository;
@@ -46,20 +47,22 @@ public class CategoryService implements ICategoryUseCase {
 
     @Override
     public UsersCategoryResponse addCategory(UsersCategoryRequest request) {
-        final var categoryFound = repository.findByName(request.categoryName());
-
-        if (categoryFound.isEmpty()) {
-            throw new AppException("The category is not found.", HttpStatus.NOT_FOUND);
-        }
-
         final var userFound = userRepository.findById(request.userId());
 
         if (userFound.isEmpty()) {
             throw new AppException("The user is not found.", HttpStatus.NOT_FOUND);
         }
 
+        final var categoryFound = repository.findByName(request.categoryName());
+        var newCategory = new Category();
+
+        if (categoryFound.isEmpty()) {
+            newCategory.setName(request.categoryName());
+            newCategory = repository.save(newCategory);
+        }
+
         final var usersCategory = usersCategoryMapper.toEntity(request);
-        usersCategory.getId().setCategoryId(categoryFound.get().getId());
+        usersCategory.getId().setCategoryId(categoryFound.isPresent() ? categoryFound.get().getId() : newCategory.getId());
 
         return usersCategoryMapper.toResponse(usersCategoryRepository.save(usersCategory));
     }
