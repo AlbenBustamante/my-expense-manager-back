@@ -16,24 +16,24 @@ import org.springframework.web.bind.annotation.*;
  * The authentication routes/endpoints.
  */
 @RestController
-@RequestMapping("/auth")
+@RequestMapping(path = "/auth")
 @RequiredArgsConstructor
 public class AuthApi {
 
     private final IUserUseCase userService;
     private final IAuthUseCase authService;
 
-    @PostMapping("/register")
+    @PostMapping(path = "/register")
     public ResponseEntity<UserResponse> register(@RequestBody UserRegister register) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.create(register));
     }
 
-    @PostMapping("/sign-in")
+    @PostMapping(path = "/sign-in")
     public ResponseEntity<AuthRes> logIn(@RequestBody AuthReq req) {
         return ResponseEntity.ok(authService.logIn(req));
     }
 
-    @PostMapping("/sign-out")
+    @PostMapping(path = "/sign-out")
     public ResponseEntity<SignOutResponse> logOut(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String token) {
         return ResponseEntity.ok(new SignOutResponse(authService.logOut(token)));
     }
