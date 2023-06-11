@@ -67,6 +67,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<UsersCategory> categories;
 
+    @OneToMany(mappedBy = "user")
+    private Set<Transaction> transactions;
+
     @PrePersist
     public void prePersist() {
         if (gender == null) {
@@ -79,6 +82,10 @@ public class User {
 
         if (categories == null) {
             categories = new HashSet<>();
+        }
+
+        if (transactions == null) {
+            transactions = new HashSet<>();
         }
 
         isEnabled = true;
