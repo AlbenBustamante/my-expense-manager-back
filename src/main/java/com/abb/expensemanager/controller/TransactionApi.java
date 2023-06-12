@@ -6,9 +6,10 @@ import com.abb.expensemanager.service.usecase.ITransactionUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * The transaction routes/endpoints.
@@ -23,11 +24,6 @@ public class TransactionApi {
     @PostMapping
     public ResponseEntity<TransactionResponse> register(@RequestBody TransactionRegister register) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(register));
-    }
-
-    @GetMapping(path = "/user/{userId}")
-    public ResponseEntity<List<TransactionResponse>> getAllByUser(@PathVariable("userId") int userId) {
-        return ResponseEntity.of(service.getAllByUser(userId));
     }
 
 }
