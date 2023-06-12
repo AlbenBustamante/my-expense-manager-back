@@ -22,6 +22,7 @@ public interface UserMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "categories", ignore = true)
+    @Mapping(target = "transactions", ignore = true)
     User toEntity(UserRegister register);
 
 }

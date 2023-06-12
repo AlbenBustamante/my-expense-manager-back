@@ -32,16 +32,16 @@ public class ReportsService implements IReportsUseCase {
 
         final var totalCategories = userFound.get().getCategories().size();
         final var totalTransactions = transactions.size();
-        final var expenses = BigDecimal.valueOf(0);
-        final var incomes = BigDecimal.valueOf(0);
+        var expenses = BigDecimal.valueOf(0);
+        var incomes = BigDecimal.valueOf(0);
 
-        transactions.forEach(transaction -> {
+        for (final var transaction : transactions) {
             if (transaction.getType().equals(TransactionType.EXPENSE)) {
-                expenses.add(transaction.getValue());
+                expenses = expenses.add(transaction.getValue());
             } else {
-                incomes.add(transaction.getValue());
+                incomes = incomes.add(transaction.getValue());
             }
-        });
+        }
 
         final var totalExpenses = "$ " + expenses;
         final var totalIncomes = "$ " + incomes;
