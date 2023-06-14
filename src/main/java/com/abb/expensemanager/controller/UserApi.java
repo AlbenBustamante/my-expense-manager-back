@@ -40,7 +40,7 @@ public class UserApi {
     }
 
     @GetMapping(path = "/{id}/reports")
-    public ResponseEntity<ReportMainDataResponse> getReports(@PathVariable("id") int id) {
+    public ResponseEntity<ReportsResponse> getReports(@PathVariable("id") int id) {
         return ResponseEntity.ok(reportsService.get(id));
     }
 

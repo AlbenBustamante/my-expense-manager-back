@@ -1,7 +1,9 @@
 package com.abb.expensemanager.service;
 
 import com.abb.expensemanager.exception.AppException;
-import com.abb.expensemanager.model.dto.ReportMainDataResponse;
+import com.abb.expensemanager.model.dto.MainStatsReportResponse;
+import com.abb.expensemanager.model.dto.ReportsResponse;
+import com.abb.expensemanager.model.entity.User;
 import com.abb.expensemanager.repository.IUserRepository;
 import com.abb.expensemanager.service.usecase.IReportsUseCase;
 import com.abb.expensemanager.util.enums.TransactionType;
@@ -21,16 +23,24 @@ public class ReportsService implements IReportsUseCase {
     private final IUserRepository userRepository;
 
     @Override
-    public ReportMainDataResponse get(int userId) {
+    public ReportsResponse get(int userId) {
         final var userFound = userRepository.findById(userId);
 
         if (userFound.isEmpty()) {
             throw new AppException("The user is not found.", HttpStatus.NOT_FOUND);
         }
 
-        final var transactions = userFound.get().getTransactions();
+        final var mainStats = generateMainStats(userFound.get());
 
-        final var totalCategories = userFound.get().getCategories().size();
+        final var currentBalance = "0";
+
+        return new ReportsResponse(mainStats, currentBalance);
+    }
+
+    private MainStatsReportResponse generateMainStats(final User user) {
+        final var transactions = user.getTransactions();
+
+        final var totalCategories = user.getCategories().size();
         final var totalTransactions = transactions.size();
         var expenses = BigDecimal.valueOf(0);
         var incomes = BigDecimal.valueOf(0);
@@ -46,6 +56,6 @@ public class ReportsService implements IReportsUseCase {
         final var totalExpenses = "$ " + expenses;
         final var totalIncomes = "$ " + incomes;
 
-        return new ReportMainDataResponse(totalCategories, totalTransactions, totalExpenses, totalIncomes);
+        return new MainStatsReportResponse(totalCategories, totalTransactions, totalExpenses, totalIncomes);
     }
 }
