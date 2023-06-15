@@ -6,6 +6,7 @@ import com.abb.expensemanager.model.dto.ReportsResponse;
 import com.abb.expensemanager.model.entity.User;
 import com.abb.expensemanager.repository.IUserRepository;
 import com.abb.expensemanager.service.usecase.IReportsUseCase;
+import com.abb.expensemanager.util.CurrencyConverter;
 import com.abb.expensemanager.util.enums.TransactionType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import java.math.BigDecimal;
 public class ReportsService implements IReportsUseCase {
 
     private final IUserRepository userRepository;
+    private final CurrencyConverter currencyConverter;
 
     @Override
     public ReportsResponse get(int userId) {
@@ -32,9 +34,14 @@ public class ReportsService implements IReportsUseCase {
 
         final var mainStats = generateMainStats(userFound.get());
 
-        final var currentBalance = "0";
+        final var expenses = currencyConverter.toBigDecimal(mainStats.totalExpenses());
+        final var incomes = currencyConverter.toBigDecimal(mainStats.totalIncomes());
 
-        return new ReportsResponse(mainStats, currentBalance);
+        final var currentBalance = BigDecimal.ZERO
+                .subtract(expenses)
+                .add(incomes);
+
+        return new ReportsResponse(mainStats, currencyConverter.toString(currentBalance));
     }
 
     private MainStatsReportResponse generateMainStats(final User user) {
@@ -53,8 +60,8 @@ public class ReportsService implements IReportsUseCase {
             }
         }
 
-        final var totalExpenses = "$ " + expenses;
-        final var totalIncomes = "$ " + incomes;
+        final var totalExpenses = currencyConverter.toString(expenses);
+        final var totalIncomes = currencyConverter.toString(incomes);
 
         return new MainStatsReportResponse(totalCategories, totalTransactions, totalExpenses, totalIncomes);
     }

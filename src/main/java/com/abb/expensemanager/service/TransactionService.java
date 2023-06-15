@@ -12,6 +12,7 @@ import com.abb.expensemanager.repository.ITransactionRepository;
 import com.abb.expensemanager.repository.IUserRepository;
 import com.abb.expensemanager.repository.IUsersCategoryRepository;
 import com.abb.expensemanager.service.usecase.ITransactionUseCase;
+import com.abb.expensemanager.util.CurrencyConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,7 @@ public class TransactionService implements ITransactionUseCase {
     private final UsersCategoryMapper usersCategoryMapper;
     private final IUsersCategoryRepository usersCategoryRepository;
     private final IUserRepository userRepository;
+    private final CurrencyConverter currencyConverter;
 
     @Override
     public TransactionResponse create(TransactionRegister register) {
@@ -56,12 +58,12 @@ public class TransactionService implements ITransactionUseCase {
 
         entity.setCategoryId(categoryFound.isEmpty() ? newCategory.getId() : categoryFound.get().getId());
 
-        return mapper.toResponse(repository.save(entity));
+        return mapper.toResponse(repository.save(entity), currencyConverter);
     }
 
     @Override
     public Optional<List<TransactionResponse>> getAllByUser(int userId) {
-        return repository.findAllByUserId(userId).map(mapper::toResponses);
+        return repository.findAllByUserId(userId).map(transactions -> mapper.toResponses(transactions, currencyConverter));
     }
 
 }
