@@ -1,6 +1,5 @@
 package com.abb.expensemanager.model.entity;
 
-import com.abb.expensemanager.util.enums.TransactionType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,10 +33,6 @@ public class Transaction {
 
     @Column(nullable = false)
     private BigDecimal value;
-
-    @Column(nullable = false, length = 7)
-    @Enumerated(value = EnumType.STRING)
-    private TransactionType type;
 
     @Column(nullable = false)
     private Boolean isEnabled;

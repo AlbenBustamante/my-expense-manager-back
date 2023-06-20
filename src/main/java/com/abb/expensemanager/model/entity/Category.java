@@ -1,5 +1,6 @@
 package com.abb.expensemanager.model.entity;
 
+import com.abb.expensemanager.util.enums.CategoryType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +24,10 @@ public class Category {
 
     @Column(nullable = false, unique = true, length = 30)
     private String name;
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false, length = 7)
+    private CategoryType type;
 
     @Column(nullable = false)
     private Boolean isEnabled;

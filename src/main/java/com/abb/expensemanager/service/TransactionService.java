@@ -41,14 +41,15 @@ public class TransactionService implements ITransactionUseCase {
             throw new AppException("The user don't exists.", HttpStatus.NOT_FOUND);
         }
 
-        final var categoryFound = categoryRepository.findByName(register.categoryName());
+        final var categoryFound = categoryRepository.findByName(register.category().name());
         var newCategory = new Category();
 
         if (categoryFound.isEmpty()) {
-            newCategory.setName(register.categoryName());
+            newCategory.setName(register.category().name());
+            newCategory.setType(register.category().type());
             newCategory = categoryRepository.save(newCategory);
 
-            final var usersCategory = usersCategoryMapper.toEntity(new UsersCategoryRequest(register.userId(), register.categoryName()));
+            final var usersCategory = usersCategoryMapper.toEntity(new UsersCategoryRequest(register.userId(), register.category()));
             usersCategory.getId().setCategoryId(newCategory.getId());
 
             usersCategoryRepository.save(usersCategory);

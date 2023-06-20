@@ -7,7 +7,7 @@ import com.abb.expensemanager.model.entity.User;
 import com.abb.expensemanager.repository.IUserRepository;
 import com.abb.expensemanager.service.usecase.IReportsUseCase;
 import com.abb.expensemanager.util.CurrencyConverter;
-import com.abb.expensemanager.util.enums.TransactionType;
+import com.abb.expensemanager.util.enums.CategoryType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -53,7 +53,7 @@ public class ReportsService implements IReportsUseCase {
         var incomes = BigDecimal.valueOf(0);
 
         for (final var transaction : transactions) {
-            if (transaction.getType().equals(TransactionType.EXPENSE)) {
+            if (transaction.getCategory().getType().equals(CategoryType.EXPENSE)) {
                 expenses = expenses.add(transaction.getValue());
             } else {
                 incomes = incomes.add(transaction.getValue());

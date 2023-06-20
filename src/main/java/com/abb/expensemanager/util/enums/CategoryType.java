@@ -1,9 +1,9 @@
 package com.abb.expensemanager.util.enums;
 
 /**
- * The transaction types.
+ * The categories type.
  */
-public enum TransactionType {
+public enum CategoryType {
     INCOME,
     EXPENSE
 }

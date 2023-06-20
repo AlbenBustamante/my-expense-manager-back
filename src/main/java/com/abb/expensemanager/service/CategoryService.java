@@ -53,11 +53,12 @@ public class CategoryService implements ICategoryUseCase {
             throw new AppException("The user is not found.", HttpStatus.NOT_FOUND);
         }
 
-        final var categoryFound = repository.findByName(request.categoryName());
+        final var categoryFound = repository.findByName(request.category().name());
         var newCategory = new Category();
 
         if (categoryFound.isEmpty()) {
-            newCategory.setName(request.categoryName());
+            newCategory.setName(request.category().name());
+            newCategory.setType(request.category().type());
             newCategory = repository.save(newCategory);
         }
 
