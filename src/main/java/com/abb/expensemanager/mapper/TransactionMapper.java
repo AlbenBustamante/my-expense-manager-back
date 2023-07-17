@@ -18,7 +18,6 @@ import java.util.List;
 public interface TransactionMapper {
 
     @Mapping(target = "value", expression = "java(currencyConverter.toString(entity.getValue()))")
-    @Mapping(target = "category", source = "entity.category.name")
     TransactionResponse toResponse(Transaction entity, CurrencyConverter currencyConverter);
 
     default List<TransactionResponse> toResponses(List<Transaction> entities, CurrencyConverter currencyConverter) {
