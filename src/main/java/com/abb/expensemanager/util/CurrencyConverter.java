@@ -38,7 +38,9 @@ public class CurrencyConverter {
     public BigDecimal toBigDecimal(final String value) {
         if (locale.getLanguage().equals("en")) {
             return new BigDecimal(value.replaceAll("[^\\d.]", ""));
-        } else if (locale.getLanguage().equals("es")) {
+        }
+
+        if (locale.getLanguage().equals("es")) {
             return new BigDecimal(value
                     .replaceAll("[^\\d,]", "")
                     .replace(',', '.'));

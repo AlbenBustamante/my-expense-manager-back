@@ -5,6 +5,6 @@ import java.time.LocalDateTime;
 /**
  * The transaction dto model as response.
  */
-public record TransactionResponse(int id, int userId, int categoryId, String description, String value,
+public record TransactionResponse(int id, int userId, String category, String description, String value,
                                   boolean isEnabled, LocalDateTime createdAt, LocalDateTime updatedAt) {
 }
